@@ -27,7 +27,7 @@ public class ConfigurationSegurity {
         http
                 .csrf(csrf -> csrf.disable()) // Deshabilita CSRF
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/Login", "/Error", "/Logout").permitAll() // Permite acceso público
+                        .requestMatchers("/Api/Auth/Login", "/Error", "/Api/Auth/Logout").permitAll() // Permite acceso público
                         .requestMatchers("/Css/**", "/Js/**", "/Img/**").permitAll() // Permite acceso público
                         .requestMatchers("/Public/**").permitAll() // Permite acceso público
                         .requestMatchers("/Admin/**").hasRole(RolAdmin.getRolUsuario()) // Requiere rol Admin
@@ -35,14 +35,14 @@ public class ConfigurationSegurity {
                         .anyRequest().authenticated() // Autenticación para otras rutas
                 )
                 .formLogin(form -> form
-                        .loginPage("/Login") // Página de inicio de sesión personalizada
+                        .loginPage("/Api/Auth/Login") // Página de inicio de sesión personalizada
                         .failureUrl("/Error") // Redirigir si hay error
                         .defaultSuccessUrl("/Home", true) // Redirigir después de login exitoso
                         .permitAll() // Permitir acceso a la página de login
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/Logout") // URL de cierre de sesión
-                        .logoutSuccessUrl("/Login?Logout") // Redirige tras cerrar sesión
+                        .logoutUrl("/Api/Auth/Logout") // URL de cierre de sesión
+                        .logoutSuccessUrl("/Api/Auth/Login?Logout") // Redirige tras cerrar sesión
                         .invalidateHttpSession(true) // Invalida completamente la sesión
                         .clearAuthentication(true) // Borra la autenticación actual
                         .deleteCookies("JSESSIONID") // Borra la cookie de sesión
@@ -50,7 +50,7 @@ public class ConfigurationSegurity {
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // Crea nueva sesión al autenticarse
-                        .invalidSessionUrl("/Login") // Redirige si la sesión es inválida
+                        .invalidSessionUrl("/Api/Auth/Login") // Redirige si la sesión es inválida
                         .sessionFixation(SessionManagementConfigurer.SessionFixationConfigurer::newSession) // Nueva sesión tras autenticarse
                 )
                 .httpBasic(Customizer.withDefaults()); // Habilita autenticación básica
@@ -70,11 +70,11 @@ public class ConfigurationSegurity {
                         .anyMatch(auth -> auth.getAuthority().equals(RolUser.getRolUsuario()))) {
                     response.sendRedirect("/UserHome");  // 🔥 Redirección segura
                 } else {
-                    response.sendRedirect("/Login"); // 🔥 Redirección segura
+                    response.sendRedirect("/Api/Auth/Login"); // 🔥 Redirección segura
                 }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
-                response.sendRedirect("/login?error=redirect"); // 🔥 Evita error 500
+                response.sendRedirect("/Api/Auth/Login?error=redirect"); // 🔥 Evita error 500
             }
         };
     }
