@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserHome</title>
+    <link rel="stylesheet" href="/css/UserHome.css">
+</head>
+<body>
+    <section class="hero">
+        <h1>Bienvenido a la vista de usuario</h1>
+        <p>Descubre todo lo que tenemos para ofrecerte</p>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="button">Cerrar sesión</button>
+        </form>
+    </section>
+    <section class="features">
+        <div class="feature">
+            <img th:src="@{/images/2.png}" alt="Feature4">
+            <h2>Calidad</h2>
+            <p>Ofrecemos productos de la mejor calidad.</p>
+        </div>
+        <div class="feature">
+            <img th:src="@{/images/3.png}" alt="Feature5">
+            <h2>Soporte</h2>
+            <p>Nuestro equipo de soporte está disponible 24/7.</p>
+        </div>
+        <div class="feature">
+            <img th:src="@{/images/4.png}" alt="Feature6">
+            <h2>Seguridad</h2>
+            <p>Tu seguridad es lo mas importante.</p>
+        </div>
+    </section>
+    <div class="footer">
+        <p>&copy;Todos los derechos reservados.</p>
+        <p>Desarrollo de software </p>
+        <p>2025</p>
+    </div>
+</body>
+</html>

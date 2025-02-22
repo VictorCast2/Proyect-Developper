@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="logo">Login</div>
+            <h2>Inicio de sesion</h2>
+            <p>Usuario y contraseña</p>
+            <form th:action="@{/login}" method="post">
+                <input type="text" name="username" placeholder="Usuario" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="sign-in">Ingresar</button>
+                <p th:if="${param.error}" style="color:red;">Usuario o contraseña incorrectos</p>
+            </form>
+        </div>
+        <div class="signup-box">
+            <h2>Usted y su cuenta estan protegidos</h2>
+            <img src="/images/1.png" alt="imagen">
+        </div>
+    </div>
+</body>
+</html>
