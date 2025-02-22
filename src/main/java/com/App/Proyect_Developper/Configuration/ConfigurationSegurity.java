@@ -60,13 +60,15 @@ public class ConfigurationSegurity {
 
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        // 🔒 Redirige a la página de inicio correspondiente
         return (request, response, authentication) -> {
             try {
+                // 🔒 Redirige a la página de inicio correspondiente
                 if (authentication.getAuthorities().stream()
                         .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
                     response.sendRedirect("/AdminHome"); // 🔥 Redirección segura
                 } else {
-                    response.sendRedirect("/UserHome");
+                    response.sendRedirect("/UserHome");  // 🔥 Redirección segura
                 }
             } catch (Exception e) {
                 e.printStackTrace(); // 🛠 Imprime errores en consola
