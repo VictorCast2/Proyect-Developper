@@ -29,7 +29,8 @@ public class ConfigurationSegurity {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/Api/Auth/Login", "/Error", "/Api/Auth/Logout").permitAll() // Permite acceso público
                         .requestMatchers("/Css/**", "/Js/**", "/Img/**").permitAll() // Permite acceso público
-                        .requestMatchers("/Public/**").permitAll() // Permite acceso público
+                        .requestMatchers("/Public/**").permitAll()
+                        .requestMatchers("/Error/**").permitAll()
                         .requestMatchers("/Admin/**").hasRole(RolAdmin.getRolUsuario()) // Requiere rol Admin
                         .requestMatchers("/User/**").hasRole(RolUser.getRolUsuario()) // Requiere rol User
                         .anyRequest().authenticated() // Autenticación para otras rutas
