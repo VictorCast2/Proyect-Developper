@@ -8,7 +8,7 @@ import java.util.*;
 
 @Data
 @Entity
-@Table(name = "Users")
+@Table(name = "Usuario")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserModel implements UserDetails {

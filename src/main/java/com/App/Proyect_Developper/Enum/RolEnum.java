@@ -1,8 +1,6 @@
 package com.App.Proyect_Developper.Enum;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @AllArgsConstructor

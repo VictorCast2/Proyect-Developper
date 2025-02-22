@@ -1,8 +1,7 @@
 package com.App.Proyect_Developper.Configuration;
 
 import com.App.Proyect_Developper.Enum.RolEnum;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -68,13 +67,13 @@ public class ConfigurationSegurity {
                         .anyMatch(auth -> auth.getAuthority().equals(RolAdmin.getRolUsuario()))) {
                     response.sendRedirect("/AdminHome"); // 🔥 Redirección segura
                 } else if (authentication.getAuthorities().stream()
-                        .anyMatch(auth -> auth.getAuthority().equals(RolAdmin.getRolUsuario()))) {
+                        .anyMatch(auth -> auth.getAuthority().equals(RolUser.getRolUsuario()))) {
                     response.sendRedirect("/UserHome");  // 🔥 Redirección segura
                 } else {
                     response.sendRedirect("/Login"); // 🔥 Redirección segura
                 }
             } catch (Exception e) {
-                e.printStackTrace(); // 🛠 Imprime errores en consola
+                System.err.println(e.getMessage());
                 response.sendRedirect("/login?error=redirect"); // 🔥 Evita error 500
             }
         };
