@@ -65,10 +65,13 @@ public class ConfigurationSegurity {
             try {
                 // 🔒 Redirige a la página de inicio correspondiente
                 if (authentication.getAuthorities().stream()
-                        .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
+                        .anyMatch(auth -> auth.getAuthority().equals(RolAdmin.getRolUsuario()))) {
                     response.sendRedirect("/AdminHome"); // 🔥 Redirección segura
-                } else {
+                } else if (authentication.getAuthorities().stream()
+                        .anyMatch(auth -> auth.getAuthority().equals(RolAdmin.getRolUsuario()))) {
                     response.sendRedirect("/UserHome");  // 🔥 Redirección segura
+                } else {
+                    response.sendRedirect("/Login"); // 🔥 Redirección segura
                 }
             } catch (Exception e) {
                 e.printStackTrace(); // 🛠 Imprime errores en consola
