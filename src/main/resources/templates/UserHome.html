@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +10,7 @@
     <section class="hero">
         <h1>Bienvenido a la vista de usuario</h1>
         <p>Descubre todo lo que tenemos para ofrecerte</p>
-        <form th:action="@{/logout}" method="post">
+        <form th:action="@{/Api/Auth/Logout}" method="post">
             <button type="submit" class="button">Cerrar sesión</button>
         </form>
     </section>

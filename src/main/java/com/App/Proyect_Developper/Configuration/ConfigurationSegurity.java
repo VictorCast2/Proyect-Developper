@@ -27,10 +27,9 @@ public class ConfigurationSegurity {
         http
                 .csrf(csrf -> csrf.disable()) // Deshabilita CSRF
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/Api/Auth/Login", "/Error", "/Api/Auth/Logout").permitAll() // Permite acceso público
+                        .requestMatchers("/Api/Auth/Login", "/Api/Auth/Logout").permitAll() // Permite acceso público
                         .requestMatchers("/Css/**", "/Js/**", "/Img/**").permitAll() // Permite acceso público
-                        .requestMatchers("/Public/**").permitAll()
-                        .requestMatchers("/Error/**").permitAll()
+                        .requestMatchers("/Error/**", "/Error").permitAll()
                         .requestMatchers("/Admin/**").hasRole(RolAdmin.getRolUsuario()) // Requiere rol Admin
                         .requestMatchers("/User/**").hasRole(RolUser.getRolUsuario()) // Requiere rol User
                         .anyRequest().authenticated() // Autenticación para otras rutas

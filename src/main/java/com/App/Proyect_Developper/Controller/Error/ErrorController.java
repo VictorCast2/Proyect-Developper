@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/Error")
 public class ErrorController {
-
     @GetMapping("/{Code}")
     public String handleError(@PathVariable int Code) {
         return switch (Code) {
@@ -19,5 +18,4 @@ public class ErrorController {
             default -> "/Error/Error";
         };
     }
-
 }

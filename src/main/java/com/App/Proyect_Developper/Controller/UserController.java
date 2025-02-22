@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/Api/User")
 public class UserController {
 
-    @PreAuthorize("hasRole('User')") // 🛡️ Endpoint protegido
-    @GetMapping("/Hello") // 🌍 Endpoint de saludo
-    public String Admin() {
-        return "👋 Hello World - Admin";
+    @GetMapping("/Home") // 🌍 Endpoint de saludo
+    public String home() {
+        return "Index";
     }
 
 }
