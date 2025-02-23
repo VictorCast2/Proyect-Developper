@@ -59,12 +59,7 @@ public class ConfigurationSegurity {
 
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-<<<<<<< HEAD
-        return (_, response, authentication) -> {
-=======
-        // 🔒 Redirige a la página de inicio correspondiente
         return (request, response, authentication) -> {
->>>>>>> 05922b8701497c7ea76992a345ada07dba523eba
             try {
                 // 🔒 Redirige a la página de inicio correspondiente
                 if (authentication.getAuthorities().stream()
