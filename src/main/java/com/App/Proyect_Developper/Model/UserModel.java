@@ -29,6 +29,7 @@ public class UserModel implements UserDetails {
     @Column(name = "Contrasenna", nullable = false)
     private String Contrasenna;
 
+    @Setter
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "RolesModel", joinColumns = @JoinColumn(name = "UserId"))
     @Column(name = "Roles")
