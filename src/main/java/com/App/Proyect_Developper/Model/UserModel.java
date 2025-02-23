@@ -29,11 +29,9 @@ public class UserModel implements UserDetails {
     @Column(name = "Contrasenna", nullable = false)
     private String Contrasenna;
 
-    @Setter
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "RolesModel", joinColumns = @JoinColumn(name = "UserId"))
-    @Column(name = "Roles")
-    private Set<String> Roles;
+    @Column(name = "Roles", nullable = false)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RolesModel> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
