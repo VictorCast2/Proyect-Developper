@@ -37,7 +37,7 @@ public class ConfigurationSegurity {
 
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return (request, response, authentication) -> {
+        return (_, response, authentication) -> {
             try {
                 if (authentication.getAuthorities().stream()
                         .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
