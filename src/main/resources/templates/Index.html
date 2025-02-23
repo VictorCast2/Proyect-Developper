@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Page</title>
-    <link rel="stylesheet" href="/css/AdminHome.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/css/AdminHome.css" />
+  </head>
+  <body>
     <section class="hero">
-        <h1>Bienvenido a la vista de administrador</h1>
-        <p>Descubre todo lo que tenemos para ofrecerte</p>
-        <form th:action="@{/logout}" method="post">
-            <button type="submit" class="button">Cerrar sesión</button>
-        </form>
+      <h1>Bienvenido a la vista de administrador</h1>
+      <p>Descubre todo lo que tenemos para ofrecerte</p>
+      <form th:action="@{/logout}" method="post">
+        <button type="submit" class="button">Cerrar sesión</button>
+      </form>
     </section>
     <section class="features">
-        <div class="feature">
-            <img th:src="@{/images/5.png}" alt="Feature1">
-            <h2>Facilidad</h2>
-            <p>Facilidad al alcance de tus manos.</p>
-        </div>
-        <div class="feature">
-            <img th:src="@{/images/6.png}" alt="Feature2">
-            <h2>Orden</h2>
-            <p>Organizacion y comodidad.</p>
-        </div>
-        <div class="feature">
-            <img th:src="@{/images/7.png}" alt="Feature3">
-            <h2>Innovación</h2>
-            <p>Siempre estamos buscando nuevas soluciones.</p>
-        </div>
+      <div class="feature">
+        <img th:src="@{/images/5.png}" alt="Feature1" />
+        <h2>Facilidad</h2>
+        <p>Facilidad al alcance de tus manos.</p>
+      </div>
+      <div class="feature">
+        <img th:src="@{/images/6.png}" alt="Feature2" />
+        <h2>Orden</h2>
+        <p>Organizacion y comodidad.</p>
+      </div>
+      <div class="feature">
+        <img th:src="@{/images/7.png}" alt="Feature3" />
+        <h2>Innovación</h2>
+        <p>Siempre estamos buscando nuevas soluciones.</p>
+      </div>
     </section>
     <div class="footer">
-        <p>&copy;Todos los derechos reservados.</p>
-        <p>Desarrollo de software </p>
-        <p>2025</p>
+      <p>&copy;Todos los derechos reservados.</p>
+      <p>Desarrollo de software</p>
+      <p>2025</p>
     </div>
-</body>
+  </body>
 </html>
