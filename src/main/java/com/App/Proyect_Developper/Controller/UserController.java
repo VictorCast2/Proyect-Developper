@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/Api")
+@RequestMapping("/Api/User")
 public class UserController {
 
-    @GetMapping("/HomeUser") // 🌍 Endpoint
+    @GetMapping("/Home") // 🌍 Endpoint
     public String homee() {
         return "UserHome";
     }

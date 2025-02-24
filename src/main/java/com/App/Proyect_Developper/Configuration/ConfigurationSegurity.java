@@ -2,6 +2,8 @@ package com.App.Proyect_Developper.Configuration;
 
 import com.App.Proyect_Developper.Repository.UserRepository;
 import com.App.Proyect_Developper.Services.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -12,10 +14,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -36,13 +41,11 @@ public class ConfigurationSegurity {
                         .requestMatchers("/Api/Auth/Login", "/Api/Auth/Logout").permitAll() // Permite acceso público
                         .requestMatchers("/Css/**", "/Js/**", "/Img/**").permitAll() // Permite acceso público
                         .requestMatchers("/Error/**", "/Error").permitAll()
-                        .requestMatchers("/Api/Admin/**").hasRole("Admin") // Requiere rol Admin
-                        .requestMatchers("/Api/User/**").hasRole("User") // Requiere rol User
                         .anyRequest().authenticated() // Autenticación para otras rutas
                 )
                 .formLogin(form -> form
                         .loginPage("/Api/Auth/Login") // Página de inicio de sesión personalizada
-                        .defaultSuccessUrl("/Api/Admin/Home") // Redirigir tras autenticarse
+                        .successHandler(successHandler()) // Manejador de inicio de sesión
                         .failureUrl("/Error") // Redirigir si hay error
                         .permitAll() // Permitir acceso a la página de login
                 )
@@ -61,6 +64,23 @@ public class ConfigurationSegurity {
                 )
                 .httpBasic(Customizer.withDefaults()); // Habilita autenticación básica
         return http.build();
+    }
+
+    /**
+     * Configura el manejador de inicio de sesión
+     * @return El manejador de inicio de sesión personalizado.
+     */
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return (HttpServletRequest request, HttpServletResponse response, Authentication authentication) -> {
+            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_Admin"))) {
+                response.sendRedirect("/Api/Admin/Home");
+            } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_User"))) {
+                response.sendRedirect("/Api/User/Home");
+            } else {
+                response.sendRedirect("/Api/Auth/Login");
+            }
+        };
     }
 
     /**
