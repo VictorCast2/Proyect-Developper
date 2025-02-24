@@ -3,10 +3,11 @@ package com.App.Proyect_Developper.Model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.*;
 import java.util.stream.Collectors;
+import static com.App.Proyect_Developper.Services.CustomUserDetailsService.userRepository;
 
 @Data
 @Entity
@@ -31,14 +32,13 @@ public class UserModel implements UserDetails {
     @Column(name = "Contrasenna", nullable = false)
     private String Contrasenna;
 
-    @Column(name = "Roles", nullable = false)
-    @OneToMany(mappedBy = "UserId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<RolesModel> roles = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                .map(rol -> new SimpleGrantedAuthority(rol.getRol()))
+                .map(rol -> (GrantedAuthority) rol::getRol)
                 .collect(Collectors.toList());
     }
 

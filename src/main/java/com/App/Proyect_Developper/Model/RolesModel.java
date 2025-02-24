@@ -14,11 +14,11 @@ public class RolesModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
 
-    @Column(name = "UserId")
-    @ManyToOne @JoinColumn(name = "UserId", nullable = false)
-    private String UserId;
-
     @Column(name = "Rol", nullable = false)
     private String Rol;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private UserModel usuario;
 
 }
