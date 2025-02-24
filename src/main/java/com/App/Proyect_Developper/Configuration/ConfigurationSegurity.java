@@ -1,17 +1,27 @@
 package com.App.Proyect_Developper.Configuration;
 
 import com.App.Proyect_Developper.Enum.RolEnum;
+import com.App.Proyect_Developper.Repository.UserRepository;
+import com.App.Proyect_Developper.Services.CustomUserDetailsService;
 import org.springframework.context.annotation.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class ConfigurationSegurity {
     public RolEnum RolAdmin = RolEnum.Administrador;
     public RolEnum RolUser = RolEnum.User;
@@ -37,7 +47,6 @@ public class ConfigurationSegurity {
                 .formLogin(form -> form
                         .loginPage("/Api/Auth/Login") // Página de inicio de sesión personalizada
                         .failureUrl("/Error") // Redirigir si hay error
-                        .defaultSuccessUrl("/Api/Home", true) // Redirigir después de login exitoso
                         .permitAll() // Permitir acceso a la página de login
                 )
                 .logout(logout -> logout
@@ -57,23 +66,72 @@ public class ConfigurationSegurity {
         return http.build();
     }
 
+    /**
+     * Configura el servicio de usuarios.
+     * @param usuarioRepository El repositorio de usuarios.
+     * @return El servicio de usuarios personalizado.
+     */
+    @Bean
+    public UserDetailsService userDetailsService(UserRepository usuarioRepository) {
+        return new CustomUserDetailsService(usuarioRepository);
+    }
+
+    /**
+     * Configura el encriptador de contraseñas.
+     * @return El encriptador de contraseñas BCrypt.
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * Configura el proveedor de autenticación.
+     * @param userDetailsService El servicio de usuarios.
+     * @param passwordEncoder El encriptador de contraseñas.
+     * @return El proveedor de autenticación personalizado.
+     */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
+
+    /**
+     * Configura el manejador de autenticación.
+     * @param http La configuración de seguridad HTTP.
+     * @param userDetailsService El servicio de usuarios.
+     * @param passwordEncoder El encriptador de contraseñas.
+     * @return El manejador de autenticación personalizado.
+     * @throws Exception Si ocurre un error al configurar el manejador de autenticación.
+     */
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) throws Exception {
+        return http.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(authenticationProvider(userDetailsService, passwordEncoder))
+                .build();
+    }
+
+    /**
+     * Configura el manejador de autenticación personalizado.
+     * @return El manejador de autenticación personalizado.
+     */
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (_, response, authentication) -> {
             try {
                 // 🔒 Redirige a la página de inicio correspondiente
                 if (authentication.getAuthorities().stream()
-                        .anyMatch(auth -> auth.getAuthority().equals(RolAdmin.getRolUsuario()))) {
-                    response.sendRedirect("/Api/Home"); // 🔥 Redirección segura
-                } else if (authentication.getAuthorities().stream()
-                        .anyMatch(auth -> auth.getAuthority().equals(RolUser.getRolUsuario()))) {
-                    response.sendRedirect("/Api/Home");  // 🔥 Redirección segura
+                        .anyMatch(auth -> auth.getAuthority().toLowerCase().equals(RolAdmin.getRolUsuario().toLowerCase()))) {
+                    response.sendRedirect("/Api/HomeAdmin"); // 🔥 Redirección segura
                 } else {
                     response.sendRedirect("/Api/Auth/Login"); // 🔥 Redirección segura
                 }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
-                response.sendRedirect("/Api/Auth/Login?error=redirect"); // 🔥 Evita error 500
+                response.sendRedirect("/Api/Auth/Login?error"); // 🔥 Evita error 500
             }
         };
     }

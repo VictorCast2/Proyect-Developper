@@ -5,12 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/Api/User")
-@PreAuthorize("hasRole('User')") // 🛡️ Endpoint protegido
+@RequestMapping("/Api")
 public class UserController {
 
-    @GetMapping("/Home") // 🌍 Endpoint
-    public String home() {
+    @GetMapping("/HomeUser") // 🌍 Endpoint
+    public String homee() {
         return "UserHome";
     }
 

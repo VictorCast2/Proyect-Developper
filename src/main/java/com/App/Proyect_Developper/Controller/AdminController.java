@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/Api")
-@PreAuthorize("hasRole('Admin')") // 🛡️ Endpoint protegido
 public class AdminController {
 
-    @GetMapping("/Home") // 🌍 Endpoint
-    public String home() {
+    @GetMapping("/HomeAdmin") // 🌍 Endpoint
+    public String homea() {
         return "AdminHome";
     }
 
