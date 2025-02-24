@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/Api/User")
+@PreAuthorize("hasRole('User')") // 🛡️ Endpoint protegido
 public class UserController {
 
-    @PreAuthorize("hasRole('User')") // 🛡️ Endpoint protegido
-    @GetMapping("/Home") // 🌍 Endpoint de saludo
+    @GetMapping("/Home") // 🌍 Endpoint
     public String home() {
-        return "Index";
+        return "UserHome";
     }
 
 }

@@ -23,11 +23,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                     System.out.println("Usuario no encontrado en la base de datos.");
                     return new UsernameNotFoundException("Usuario no encontrado ... ");
                 });
-        System.out.println("Usuario encontrado: " + usuario.getUsername());
+        System.out.println("Usuario encontrado: " + usuario.getUsername()+ " ... " );
         return new User(
                 usuario.getUsername(),
                 usuario.getPassword(),
-                usuario.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+                usuario.getRoles()
+                        .stream().map(SimpleGrantedAuthority::new) // Convertir a SimpleGrantedAuthority
+                        .collect(Collectors.toList()) // Convertir a List
         );
     }
 

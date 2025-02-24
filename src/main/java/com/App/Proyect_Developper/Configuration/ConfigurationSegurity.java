@@ -37,7 +37,7 @@ public class ConfigurationSegurity {
                 .formLogin(form -> form
                         .loginPage("/Api/Auth/Login") // Página de inicio de sesión personalizada
                         .failureUrl("/Error") // Redirigir si hay error
-                        .defaultSuccessUrl("/Home", true) // Redirigir después de login exitoso
+                        .defaultSuccessUrl("/Api/Home", true) // Redirigir después de login exitoso
                         .permitAll() // Permitir acceso a la página de login
                 )
                 .logout(logout -> logout
@@ -64,10 +64,10 @@ public class ConfigurationSegurity {
                 // 🔒 Redirige a la página de inicio correspondiente
                 if (authentication.getAuthorities().stream()
                         .anyMatch(auth -> auth.getAuthority().equals(RolAdmin.getRolUsuario()))) {
-                    response.sendRedirect("/AdminHome"); // 🔥 Redirección segura
+                    response.sendRedirect("/Api/Home"); // 🔥 Redirección segura
                 } else if (authentication.getAuthorities().stream()
                         .anyMatch(auth -> auth.getAuthority().equals(RolUser.getRolUsuario()))) {
-                    response.sendRedirect("/UserHome");  // 🔥 Redirección segura
+                    response.sendRedirect("/Api/Home");  // 🔥 Redirección segura
                 } else {
                     response.sendRedirect("/Api/Auth/Login"); // 🔥 Redirección segura
                 }
