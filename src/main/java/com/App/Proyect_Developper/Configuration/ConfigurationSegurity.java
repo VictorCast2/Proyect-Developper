@@ -2,8 +2,7 @@ package com.App.Proyect_Developper.Configuration;
 
 import com.App.Proyect_Developper.Repository.UserRepository;
 import com.App.Proyect_Developper.Services.CustomUserDetailsService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import org.springframework.context.annotation.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -110,9 +109,9 @@ public class ConfigurationSegurity {
      */
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(); // Proveedor de autenticación
+        authProvider.setUserDetailsService(userDetailsService); // Servicio de usuarios
+        authProvider.setPasswordEncoder(passwordEncoder); // Encriptador de contraseñas
         return authProvider;
     }
 
@@ -129,6 +128,15 @@ public class ConfigurationSegurity {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .authenticationProvider(authenticationProvider(userDetailsService, passwordEncoder))
                 .build();
+    }
+
+    /**
+     * Configura el servicio de usuarios.
+     * @return El servicio de usuarios personalizado.
+     */
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
     }
 
 }

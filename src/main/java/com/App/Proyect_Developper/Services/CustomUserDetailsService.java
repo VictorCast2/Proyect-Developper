@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 @Data
 @Service
 @AllArgsConstructor
+@NoArgsConstructor(force = true)
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

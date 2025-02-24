@@ -26,4 +26,11 @@ public class UserModel{
     @Column(name = "rol")
     private Set<String> roles;
 
+    public Set<String> getRoles() {
+        return this.roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
+    }
 }
