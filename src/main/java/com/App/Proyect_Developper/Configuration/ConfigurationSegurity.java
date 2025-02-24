@@ -30,8 +30,8 @@ public class ConfigurationSegurity {
                         .requestMatchers("/Api/Auth/Login", "/Api/Auth/Logout").permitAll() // Permite acceso público
                         .requestMatchers("/Css/**", "/Js/**", "/Img/**").permitAll() // Permite acceso público
                         .requestMatchers("/Error/**", "/Error").permitAll()
-                        .requestMatchers("/Admin/**").hasRole(RolAdmin.getRolUsuario()) // Requiere rol Admin
-                        .requestMatchers("/User/**").hasRole(RolUser.getRolUsuario()) // Requiere rol User
+                        .requestMatchers("/Api/Admin/**").hasRole(RolAdmin.getRolUsuario()) // Requiere rol Admin
+                        .requestMatchers("/Api/User/**").hasRole(RolUser.getRolUsuario()) // Requiere rol User
                         .anyRequest().authenticated() // Autenticación para otras rutas
                 )
                 .formLogin(form -> form

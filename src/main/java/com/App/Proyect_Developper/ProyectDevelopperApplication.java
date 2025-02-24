@@ -3,6 +3,7 @@ package com.App.Proyect_Developper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class ProyectDevelopperApplication implements CommandLineRunner {
@@ -21,7 +22,10 @@ public class ProyectDevelopperApplication implements CommandLineRunner {
 	 */
 	@Override
 	public void run(String... args) throws Exception {
-
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String rawPassword = "admin";
+		String encodedPassword = encoder.encode(rawPassword);
+		System.out.println("Contraseña encriptada: " + encodedPassword);
 	}
 
 }
