@@ -1,0 +1,48 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6B6BFF, #9A9AFF);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1 {
+    color: #3333CC;
+    font-size: 28px;
+}
+
+p {
+    color: #555;
+    font-size: 18px;
+}
+
+/* Botón */
+.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: white;
+    background: #3333CC;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background: #2222AA;
+    transform: scale(1.05);
+}
