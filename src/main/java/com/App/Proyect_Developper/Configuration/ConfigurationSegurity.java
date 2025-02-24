@@ -1,6 +1,5 @@
 package com.App.Proyect_Developper.Configuration;
 
-import com.App.Proyect_Developper.Enum.RolEnum;
 import com.App.Proyect_Developper.Repository.UserRepository;
 import com.App.Proyect_Developper.Services.CustomUserDetailsService;
 import org.springframework.context.annotation.*;
@@ -17,14 +16,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class ConfigurationSegurity {
-    public RolEnum RolAdmin = RolEnum.Administrador;
-    public RolEnum RolUser = RolEnum.User;
 
     /**
      * Configura las reglas de seguridad de la aplicación.
@@ -40,12 +36,13 @@ public class ConfigurationSegurity {
                         .requestMatchers("/Api/Auth/Login", "/Api/Auth/Logout").permitAll() // Permite acceso público
                         .requestMatchers("/Css/**", "/Js/**", "/Img/**").permitAll() // Permite acceso público
                         .requestMatchers("/Error/**", "/Error").permitAll()
-                        .requestMatchers("/Api/Admin/**").hasRole(RolAdmin.getRolUsuario()) // Requiere rol Admin
-                        .requestMatchers("/Api/User/**").hasRole(RolUser.getRolUsuario()) // Requiere rol User
+                        .requestMatchers("/Api/Admin/**").hasRole("Admin") // Requiere rol Admin
+                        .requestMatchers("/Api/User/**").hasRole("User") // Requiere rol User
                         .anyRequest().authenticated() // Autenticación para otras rutas
                 )
                 .formLogin(form -> form
                         .loginPage("/Api/Auth/Login") // Página de inicio de sesión personalizada
+                        .defaultSuccessUrl("/Api/Admin/Home") // Redirigir tras autenticarse
                         .failureUrl("/Error") // Redirigir si hay error
                         .permitAll() // Permitir acceso a la página de login
                 )
@@ -112,28 +109,6 @@ public class ConfigurationSegurity {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
                 .authenticationProvider(authenticationProvider(userDetailsService, passwordEncoder))
                 .build();
-    }
-
-    /**
-     * Configura el manejador de autenticación personalizado.
-     * @return El manejador de autenticación personalizado.
-     */
-    @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return (_, response, authentication) -> {
-            try {
-                // 🔒 Redirige a la página de inicio correspondiente
-                if (authentication.getAuthorities().stream()
-                        .anyMatch(auth -> auth.getAuthority().toLowerCase().equals(RolAdmin.getRolUsuario().toLowerCase()))) {
-                    response.sendRedirect("/Api/HomeAdmin"); // 🔥 Redirección segura
-                } else {
-                    response.sendRedirect("/Api/Auth/Login"); // 🔥 Redirección segura
-                }
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-                response.sendRedirect("/Api/Auth/Login?error"); // 🔥 Evita error 500
-            }
-        };
     }
 
 }

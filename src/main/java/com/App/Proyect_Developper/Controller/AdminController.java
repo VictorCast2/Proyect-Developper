@@ -1,15 +1,13 @@
 package com.App.Proyect_Developper.Controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/Api")
+@RequestMapping("/Api/Admin")
 public class AdminController {
 
-    @GetMapping("/HomeAdmin") // 🌍 Endpoint
+    @GetMapping("/Home") // 🌍 Endpoint
     public String homea() {
         return "AdminHome";
     }
